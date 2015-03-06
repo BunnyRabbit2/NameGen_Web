@@ -15,7 +15,6 @@ function loadDatasetWords(textFileName)
 };
 
 function buildDatasetWordPairs(words) {
-    if(DEBUG) { console.log("BUILDING PAIRS"); }
 
     for(var i = 0; i < words.length; i++) {
         var word = words[i].trim();
@@ -49,7 +48,7 @@ function buildDatasetWordPairs(words) {
 
     var limit = words.length / 10;
     var found = 0;
-    var fixLength = randomIntFromInterval(0,4);
+    var fixLength = randomIntFromInterval(2,4);
 
     while (found < limit)
     {

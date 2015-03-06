@@ -1,23 +1,32 @@
-﻿var DEBUG = true;
-
-function loadDatasetWordsIntoDiv(textFileName, divId) {
-        var htmlstring = "";
-
+﻿function loadDatasetWordsIntoDiv(textFileName) {
     $.get(textFileName, function(data) {
         data = data.toLowerCase();
         var words = data.split(' ');
 
-        words.forEach(function(word) {
-            word = word.toLowerCase();
-            htmlstring = htmlstring + "<div class=\"col-md-1\">" + word.toTitleCase() + "</div>";
-        });
-
-        document.getElementById(divId).innerHTML = htmlstring;
+        outputWordsToDiv(words);
 
         buildDatasetWordPairs(words);
         outputPairsToDiv(firstPairs,normalPairs);
         outputFixesToDiv(fixes);
     });
+}
+
+function outputWordsToDiv(words)
+{
+    var htmlstring = "";
+
+    htmlstring = htmlstring + "<div class=\"col-md-12\">";
+    htmlstring = htmlstring + "<ul class=\"list-inline\">\n";
+
+    words.forEach(function(word) {
+        word = word.toLowerCase();
+        htmlstring = htmlstring + "<li>" + word.toTitleCase() + "</li>";
+    });
+
+    htmlstring = htmlstring + "</ul>\n";
+    htmlstring = htmlstring + "</div>";
+
+    document.getElementById("datasetwords").innerHTML = htmlstring;
 }
 
 function outputPairsToDiv(firstPairs, normalPairs)
@@ -72,4 +81,32 @@ function outputFixesToDiv(fixes)
     htmlstring = htmlstring + "</div>";
 
     document.getElementById("datasetfixes").innerHTML = htmlstring;
+}
+
+function populateDatasetSelectBox()
+{
+    $.get("content/datasets/datasets.txt", function(data) {
+        // data = data.toTitleCase();
+
+        var datasets = data.split('\n');
+        var select = document.getElementById("dataset-select");
+
+        var opt = document.createElement("option");
+        opt.value = "null";
+        opt.textContent = "Select Dataset to View";
+        select.appendChild(opt);
+
+        datasets.forEach(function(dataset) {
+            var opt = document.createElement("option");
+            opt.value = "content/datasets/" + dataset + ".txt";
+            opt.textContent = dataset;
+            select.appendChild(opt);
+        });
+
+        select.selectedIndex = 0;
+
+        select.onchange = function () {
+            loadDatasetWordsIntoDiv(select.options[select.selectedIndex].value);
+        };
+    })
 }
