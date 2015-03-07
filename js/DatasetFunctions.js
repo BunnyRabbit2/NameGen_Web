@@ -8,13 +8,15 @@ function loadDatasetWords(textFileName)
         data = data.toLowerCase();
         var datasetWords = data.split(' ');
 
-        datasetWords.forEach(function(word) {
-            word = word.toLowerCase();
-        });
+        buildDatasetWordPairs(datasetWords);
     });
 };
 
 function buildDatasetWordPairs(words) {
+
+    firstPairs = {};
+    normalPairs = {};
+    fixes = {};
 
     for(var i = 0; i < words.length; i++) {
         var word = words[i].trim();
@@ -25,6 +27,7 @@ function buildDatasetWordPairs(words) {
             word = word + " ";
 
             addPairToDictionary(firstPairs, word.substr(0,3));
+            addPairToDictionary(normalPairs, word.substr(0,3));
         }
 
         word = word + " ";
@@ -34,6 +37,7 @@ function buildDatasetWordPairs(words) {
         pairing = word.substr(0,3);
 
         addPairToDictionary(firstPairs,pairing);
+        addPairToDictionary(normalPairs, word.substr(0,3));
 
         for (var i2 = 0; i2 < word.length - 2; i2++)
         {
@@ -87,12 +91,16 @@ function addPairToDictionary(dictionary, pairing)
     var nextLetter = pairing.substr(2,1);
 
     if(dictionary[pair] != null) {
-        if($.inArray(nextLetter,dictionary[pair]) == -1) {
-            dictionary[pair].push(nextLetter);
+        if(nextLetter !== "") {
+            if ($.inArray(nextLetter, dictionary[pair]) == -1) {
+                dictionary[pair].push(nextLetter);
+            }
         }
     }
     else {
-        dictionary[pair] = [];
-        dictionary[pair].push(nextLetter);
+        if(nextLetter !== "") {
+            dictionary[pair] = [];
+            dictionary[pair].push(nextLetter);
+        }
     }
 }

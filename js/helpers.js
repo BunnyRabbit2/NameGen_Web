@@ -33,3 +33,13 @@ function randomIntFromInterval(min,max)
 {
     return Math.floor(Math.random()*(max-min+1)+min);
 }
+
+var randomProperty = function (obj) {
+    var keys = Object.keys(obj)
+    return obj[keys[ keys.length * Math.random() << 0]];
+};
+
+var randomPropertyName = function (obj) {
+    var keys = Object.keys(obj)
+    return keys[ keys.length * Math.random() << 0];
+};
