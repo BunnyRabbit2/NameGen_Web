@@ -22,6 +22,8 @@ function initialise() {
         select.selectedIndex = 0;
 
         select.onchange = function () {
+            $('#generate-button').prop('disabled', true);
+            $('#generate-six-button').prop('disabled', true);
             loadDatasetWords(select.options[select.selectedIndex].value);
         };
 
@@ -50,7 +52,7 @@ function generateNames(numberToGenerate)
     {
         var newName = generateName(minLength,maxLength);
 
-        if(newName !== "") {
+        if(/\S/.test(newName)) {
             var div = document.createElement("div");
             div.appendChild(document.createTextNode(newName.toTitleCase()));
             div.setAttribute("class", "col-md-2 panel panel-default text-center");
@@ -107,7 +109,8 @@ function addPrefix(nameIn)
 {
     var chopToFit = false;
     var prefixSize = fixes["prefixes"].length;
-    var prefix = fixes["prefixes"][randomIntFromInterval(0,prefixSize-1)];
+    var prefixToUse = randomIntFromInterval(0,prefixSize-1);
+    var prefix = fixes["prefixes"][prefixToUse];
     var wordOut = "";
 
     if (/[aeiouy]$/i.test(nameIn))
@@ -125,7 +128,7 @@ function addSuffix(nameIn)
 {
     var chopToFit = false;
     var suffixSize = fixes["suffixes"].length;
-    var suffix = fixes["prefixes"][randomIntFromInterval(0,suffixSize-1)];
+    var suffix = fixes["suffixes"][randomIntFromInterval(0,suffixSize-1)];
     var wordOut = "";
 
     if (/^[aeiouy]/i.test(nameIn))
@@ -134,7 +137,7 @@ function addSuffix(nameIn)
     if (/[aeiouy]$/i.test(nameIn) && chopToFit)
         wordOut = suffix + nameIn.substr(0, nameIn.length - 1);
     else
-        wordOut = suffix + nameIn;
+        wordOut = nameIn + suffix;
 
     return wordOut;
 }

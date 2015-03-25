@@ -1,6 +1,12 @@
-var firstPairs = {};
-var normalPairs = {};
-var fixes = {};
+var dataset = {
+    firstPairs = {},
+    normalPairs = {},
+    fixes = {}
+};
+
+//var firstPairs = {};
+//var normalPairs = {};
+//var fixes = {};
 
 function loadDatasetWords(textFileName)
 {
@@ -9,6 +15,13 @@ function loadDatasetWords(textFileName)
         var datasetWords = data.split(' ');
 
         buildDatasetWordPairs(datasetWords);
+
+        if($('#generate-button') != null) {
+            $('#generate-button').prop('disabled', false);
+        }
+        if($('#generate-six-button') != null) {
+            $('#generate-six-button').prop('disabled', false);
+        }
     });
 };
 
@@ -90,15 +103,19 @@ function addPairToDictionary(dictionary, pairing)
     var pair = pairing.substr(0,2);
     var nextLetter = pairing.substr(2,1);
 
+    if(pair.indexOf(' ') >= 0) {
+        return;
+    }
+
     if(dictionary[pair] != null) {
-        if(nextLetter !== "") {
+        if(/\S/.test(nextLetter)) {
             if ($.inArray(nextLetter, dictionary[pair]) == -1) {
                 dictionary[pair].push(nextLetter);
             }
         }
     }
     else {
-        if(nextLetter !== "") {
+        if(/\S/.test(nextLetter)) {
             dictionary[pair] = [];
             dictionary[pair].push(nextLetter);
         }
