@@ -1,12 +1,8 @@
-var dataset = {
-    firstPairs = {},
-    normalPairs = {},
-    fixes = {}
-};
+var dataset = {};
 
-//var firstPairs = {};
-//var normalPairs = {};
-//var fixes = {};
+dataset.firstPairs = {};
+dataset.normalPairs = {};
+dataset.fixes = {};
 
 function loadDatasetWords(textFileName)
 {
@@ -27,9 +23,13 @@ function loadDatasetWords(textFileName)
 
 function buildDatasetWordPairs(words) {
 
-    firstPairs = {};
-    normalPairs = {};
-    fixes = {};
+    dataset.firstPairs = {};
+    dataset.normalPairs = {};
+    dataset.fixes = {};
+
+    var firstPairs = dataset.firstPairs;
+    var normalPairs = dataset.normalPairs;
+    var fixes = dataset.fixes;
 
     for(var i = 0; i < words.length; i++) {
         var word = words[i].trim();

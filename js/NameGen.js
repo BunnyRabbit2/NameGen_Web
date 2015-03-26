@@ -66,19 +66,19 @@ function generateNames(numberToGenerate)
 
 function generateName(minLength, maxLength)
 {
-    var newName = randomPropertyName(firstPairs);
+    var newName = randomPropertyName(dataset.firstPairs);
 
     var wordComplete = false;
     var wordLength = randomIntFromInterval(minLength,maxLength);
 
     while(!wordComplete)
     {
-        var size = normalPairs[newName.substr(newName.length - 2)].length;
-        var nextChar = normalPairs[newName.substr(newName.length - 2)][randomIntFromInterval(0,size-1)];
+        var size = dataset.normalPairs[newName.substr(newName.length - 2)].length;
+        var nextChar = dataset.normalPairs[newName.substr(newName.length - 2)][randomIntFromInterval(0,size-1)];
 
         newName = newName + nextChar;
 
-        if(newName.length == wordLength)
+        if(newName.length == wordLength || dataset.normalPairs[newName.substr(newName.length - 2)] == null)
         {
             wordComplete = true;
         }
@@ -93,11 +93,22 @@ function generateName(minLength, maxLength)
         if (wordComplete) {
             if (randomIntFromInterval(1, 3) == 3) {
                 if (randomIntFromInterval(1, 2) == 1) {
-                    newName = addPrefix(newName);
+                    var fixName = addPrefix(newName);
+                    if(fixName.length >= minLength && fixName.length <= maxLength) {
+                        newName = fixName;
+                    }
                 }
                 else {
-                    newName = addSuffix(newName);
+                    var fixName = addPrefix(newName);
+                    if(fixName.length >= minLength && fixName.length <= maxLength) {
+                        newName = fixName;
+                    }
                 }
+            }
+
+            if(newName.length < minLength || newName.length > maxLength) {
+                console.log(newName);
+                return "";
             }
         }
     }
@@ -108,9 +119,9 @@ function generateName(minLength, maxLength)
 function addPrefix(nameIn)
 {
     var chopToFit = false;
-    var prefixSize = fixes["prefixes"].length;
+    var prefixSize = dataset.fixes["prefixes"].length;
     var prefixToUse = randomIntFromInterval(0,prefixSize-1);
-    var prefix = fixes["prefixes"][prefixToUse];
+    var prefix = dataset.fixes["prefixes"][prefixToUse];
     var wordOut = "";
 
     if (/[aeiouy]$/i.test(nameIn))
@@ -127,8 +138,8 @@ function addPrefix(nameIn)
 function addSuffix(nameIn)
 {
     var chopToFit = false;
-    var suffixSize = fixes["suffixes"].length;
-    var suffix = fixes["suffixes"][randomIntFromInterval(0,suffixSize-1)];
+    var suffixSize = dataset.fixes["suffixes"].length;
+    var suffix = dataset.fixes["suffixes"][randomIntFromInterval(0,suffixSize-1)];
     var wordOut = "";
 
     if (/^[aeiouy]/i.test(nameIn))
