@@ -4,10 +4,12 @@
         var words = data.split(' ');
 
         outputWordsToDiv(words);
-
+        document.getElementById('word-list-header').className = "row";
         buildDatasetWordPairs(words);
-        outputPairsToDiv(firstPairs,normalPairs);
-        outputFixesToDiv(fixes);
+        outputPairsToDiv(dataset.firstPairs, dataset.normalPairs);
+        document.getElementById('pair-list-header').className = "row";
+        outputFixesToDiv(dataset.fixes);
+        document.getElementById('fix-list-header').className = "row";
     });
 }
 
@@ -63,6 +65,9 @@ function outputFixesToDiv(fixes)
 
     htmlstring = htmlstring + "<div class=\"col-md-6\">";
     htmlstring = htmlstring + "<ul class=\"list-group\">\n";
+    htmlstring = htmlstring + "<li class=\"list-group-item active\">";
+    htmlstring = htmlstring + "<h4 class=\"list-group-item-heading\">Prefixes</h4>";
+    htmlstring = htmlstring + "</li>";
 
     $.each(fixes["prefixes"], function(index,prefix) {
         htmlstring = htmlstring + "<li class=\"list-group-item\">" + prefix + "</li>";
@@ -72,6 +77,9 @@ function outputFixesToDiv(fixes)
     htmlstring = htmlstring + "</div>";
     htmlstring = htmlstring + "<div class=\"col-md-6\">";
     htmlstring = htmlstring + "<ul class=\"list-group\">\n";
+    htmlstring = htmlstring + "<li class=\"list-group-item active\">";
+    htmlstring = htmlstring + "<h4 class=\"list-group-item-heading\">Suffixes</h4>";
+    htmlstring = htmlstring + "</li>";
 
     $.each(fixes["suffixes"], function(index,suffix) {
         htmlstring = htmlstring + "<li class=\"list-group-item\">" + suffix + "</li>";
