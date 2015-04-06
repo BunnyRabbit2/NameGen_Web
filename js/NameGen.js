@@ -32,7 +32,11 @@ function initialise() {
         $('#generate-button').click(function(){ generateNames(1); });
         $('#generate-six-button').click(function(){ generateNames(6); });
 
-        $('#name-max').selectedIndex = 2;
+        $('#generate-button').prop('disabled', true);
+        $('#generate-six-button').prop('disabled', true);
+
+        $('#name-min').prop('selectedIndex', 1);
+        $('#name-max').prop('selectedIndex', 4);
     })
 }
 
