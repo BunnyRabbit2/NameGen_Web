@@ -43,3 +43,27 @@ var randomPropertyName = function (obj) {
     var keys = Object.keys(obj)
     return keys[ keys.length * Math.random() << 0];
 };
+
+function getBootstrapThemeName()
+{
+    var links = document.getElementsByTagName('link');
+
+    var themeLink;
+
+    for(var i = 0; i < links.length; i++)
+    {
+        if(links[i].getAttribute('href').indexOf('.bootstrap') > -1) {
+            themeLink = links[i].getAttribute('href');
+            break;
+        }
+    }
+
+    if(themeLink) {
+        var start = themeLink.indexOf('css/') + 4;
+        var end = themeLink.indexOf('.bootstrap');
+
+        var themeName = themeLink.substr(start, end - start);
+    }
+
+    return themeName.toTitleCase();
+};
